@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Suivi Lynk &amp; Co 08</title>
+<style>
+:root{--bg:#f4f6f8;--card:#fff;--tx:#14202b;--mut:#6b7885;--ac:#0a7d5a;--ac2:#e08a00;--bd:#dde3e8;--dg:#c0392b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f161c;--card:#18222b;--tx:#e8eef3;--mut:#93a1ad;--ac:#2fc79a;--ac2:#f3a93c;--bd:#2a3743;--dg:#ff7b6b}}
+:root[data-theme="dark"]{--bg:#0f161c;--card:#18222b;--tx:#e8eef3;--mut:#93a1ad;--ac:#2fc79a;--ac2:#f3a93c;--bd:#2a3743;--dg:#ff7b6b}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.4 -apple-system,system-ui,"Segoe UI",Roboto,sans-serif;padding-bottom:84px}
+main{max-width:560px;margin:0 auto;padding:14px}
+h1{font-size:20px;margin:6px 0 12px}h2{font-size:15px;margin:0 0 10px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{display:block;font-size:12px;color:var(--mut);margin-bottom:3px}
+input,textarea{width:100%;font:inherit;font-size:16px;padding:10px;border-radius:10px;border:1px solid var(--bd);background:var(--bg);color:var(--tx)}
+.full{grid-column:1/-1}
+button{font:inherit;font-weight:600;border:0;border-radius:12px;padding:12px 16px;background:var(--ac);color:#fff;width:100%}
+button.sec{background:transparent;color:var(--tx);border:1px solid var(--bd)}button.dg{background:transparent;color:var(--dg);border:1px solid var(--dg)}
+.row{display:flex;gap:8px;margin-top:10px}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--bd);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}
+nav button{background:none;color:var(--mut);padding:8px 4px;font-size:12px;border-radius:8px}nav button.on{color:var(--ac)}
+nav span{display:block;font-size:20px}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}.kpi{background:var(--bg);border-radius:12px;padding:10px}.kpi b{display:block;font-size:22px}.kpi small{color:var(--mut)}
+.item{border-bottom:1px solid var(--bd);padding:10px 0}.item:last-child{border:0}.item .t{display:flex;justify-content:space-between;font-weight:600}
+.item .s{color:var(--mut);font-size:13px;margin-top:2px}
+.tag{display:inline-block;font-size:11px;border-radius:6px;padding:1px 6px;margin-right:4px;background:var(--bg);border:1px solid var(--bd)}
+.hide{display:none}.note{color:var(--mut);font-size:13px}
+table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:6px 4px;text-align:right;border-bottom:1px solid var(--bd)}th{color:var(--mut);font-weight:500}td:first-child,th:first-child{text-align:left}
+.sc{overflow-x:auto}
+</style>
+</head>
+<body>
+<main>
+<h1>⚡ Suivi Lynk &amp; Co 08</h1>
+
+<section id="v-saisie">
+<div class="card">
+<h2 id="ftitle">Nouvelle saisie</h2>
+<div class="grid">
+<div><label>Date</label><input type="date" id="date"></div>
+<div><label>Heure</label><input type="time" id="time"></div>
+<div class="full"><label>Kilométrage total (km)</label><input type="number" inputmode="decimal" step="any" id="km"></div>
+<div class="full note">🔋 Avant la charge</div>
+<div><label>Batterie (%)</label><input type="number" inputmode="decimal" step="any" id="bavant"></div>
+<div><label>Km restants électrique</label><input type="number" inputmode="decimal" step="any" id="evavant"></div>
+<div class="full note">🔌 Charge</div>
+<div><label>Énergie chargée (kWh)</label><input type="number" inputmode="decimal" step="any" id="kwh"></div>
+<div><label>Coût charge (DT)</label><input id="ckwh" disabled></div>
+<div><label>Batterie après (%)</label><input type="number" inputmode="decimal" step="any" id="bapres"></div>
+<div><label>Km électrique après</label><input type="number" inputmode="decimal" step="any" id="evapres"></div>
+<div class="full note">⛽ Plein d’essence</div>
+<div><label>Plein (L)</label><input type="number" inputmode="decimal" step="any" id="litres"></div>
+<div><label>Coût plein (DT)</label><input id="clit" disabled></div>
+<div class="full"><label>Km restants essence</label><input type="number" inputmode="decimal" step="any" id="essrest"></div>
+<div class="full"><label>Notes</label><input id="notes" placeholder="Maison, trajet…"></div>
+</div>
+<div class="row"><button id="save">Enregistrer</button></div>
+<div class="row hide" id="editrow"><button class="sec" id="cancel">Annuler</button><button class="dg" id="del">Supprimer</button></div>
+</div>
+</section>
+
+<section id="v-journal" class="hide"><div class="card"><h2>Journal</h2><div id="list"></div></div></section>
+
+<section id="v-stats" class="hide">
+<div class="card"><h2>Résumé</h2><div class="kpis" id="kpis"></div></div>
+<div class="card"><h2>kWh / 100 km par intervalle</h2><div id="chart"></div><p class="note" id="chartnote"></p></div>
+<div class="card sc"><h2>Détail des intervalles</h2><table id="tbl"></table></div>
+</section>
+
+<section id="v-reglages" class="hide">
+<div class="card"><h2>Paramètres</h2>
+<div class="grid">
+<div><label>Batterie (kWh)</label><input type="number" inputmode="decimal" step="any" id="s-cap"></div>
+<div><label>Autonomie EV (km)</label><input type="number" inputmode="decimal" step="any" id="s-aut"></div>
+<div><label>Prix kWh (DT)</label><input type="number" inputmode="decimal" step="any" id="s-pk"></div>
+<div><label>Prix essence L (DT)</label><input type="number" inputmode="decimal" step="any" id="s-pl"></div>
+</div></div>
+<div class="card"><h2>Données</h2>
+<div class="row"><button class="sec" id="exp">Copier en CSV</button></div>
+<textarea id="csv" rows="5" class="hide" style="margin-top:10px" readonly></textarea>
+<div class="row"><button class="dg" id="reset">Tout effacer</button></div>
+<p class="note">Les données sont stockées dans ce navigateur (Safari sur ton iPhone). Utilise « Copier en CSV » pour sauvegarder.</p></div>
+</section>
+</main>
+
+<nav id="nav">
+<button data-v="saisie" class="on"><span>➕</span>Saisie</button>
+<button data-v="journal"><span>📋</span>Journal</button>
+<button data-v="stats"><span>📊</span>Stats</button>
+<button data-v="reglages"><span>⚙️</span>Réglages</button>
+</nav>
+
+<script>
+(function(){
+var KEY="lynkco08_v1";
+var SEED={settings:{cap:39.6,aut:200,pk:0.4,pl:2.122},entries:[
+{date:"2026-10-10",time:"",km:null,bavant:28,evavant:54,kwh:23.54,bapres:90,evapres:176,litres:null,essrest:null,notes:""},
+{date:"2026-10-12",time:"",km:7004,bavant:14,evavant:28,kwh:25.35,bapres:82,evapres:162,litres:null,essrest:405,notes:""},
+{date:"2026-10-13",time:"",km:7095,bavant:null,evavant:null,kwh:14.34,bapres:82,evapres:161,litres:null,essrest:405,notes:""},
+{date:"2026-10-14",time:"",km:7209,bavant:23,evavant:45,kwh:21.02,bapres:80,evapres:157,litres:null,essrest:405,notes:"Date à vérifier"},
+{date:"2026-10-15",time:"12:21",km:7277,bavant:46,evavant:91,kwh:12.01,bapres:78,evapres:153,litres:null,essrest:405,notes:"Maison"},
+{date:"2026-10-15",time:"17:08",km:7351,bavant:null,evavant:null,kwh:13.58,bapres:80,evapres:157,litres:null,essrest:405,notes:""},
+{date:"2026-10-16",time:"12:51",km:7404,bavant:55,evavant:108,kwh:9,bapres:null,evapres:null,litres:null,essrest:405,notes:""},
+{date:"2026-10-17",time:"",km:7464,bavant:58,evavant:113,kwh:12.25,bapres:90,evapres:176,litres:null,essrest:405,notes:""}]};
+var S;
+function load(){try{var r=localStorage.getItem(KEY);if(r)return JSON.parse(r)}catch(e){}
+var s=JSON.parse(JSON.stringify(SEED));s.entries.forEach(function(e,i){e.id=i+1});return s}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+S=load();
+var $=function(i){return document.getElementById(i)};
+var F=["km","bavant","evavant","kwh","bapres","evapres","litres","essrest"];
+var editId=null;
+function num(v){var n=parseFloat(String(v).replace(",","."));return isNaN(n)?null:n}
+function f(n,d){return n==null||isNaN(n)?"–":n.toFixed(d==null?1:d).replace(".",",")}
+function today(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function costs(){$("ckwh").value=f((num($("kwh").value)||0)*S.settings.pk,2);$("clit").value=f((num($("litres").value)||0)*S.settings.pl,2)}
+["kwh","litres"].forEach(function(i){$(i).addEventListener("input",costs)});
+function clearForm(){editId=null;$("date").value=today();$("time").value="";$("notes").value="";F.forEach(function(k){$(k).value=""});
+$("ftitle").textContent="Nouvelle saisie";$("editrow").classList.add("hide");$("save").textContent="Enregistrer";costs()}
+function fill(e){editId=e.id;$("date").value=e.date||"";$("time").value=e.time||"";$("notes").value=e.notes||"";
+F.forEach(function(k){$(k).value=e[k]==null?"":e[k]});$("ftitle").textContent="Modifier la saisie";
+$("editrow").classList.remove("hide");$("save").textContent="Mettre à jour";costs();show("saisie");window.scrollTo(0,0)}
+$("save").onclick=function(){
+var e={date:$("date").value||today(),time:$("time").value,notes:$("notes").value.trim()};
+F.forEach(function(k){e[k]=num($(k).value)});
+if(editId){e.id=editId;S.entries=S.entries.map(function(x){return x.id===editId?e:x})}
+else{e.id=Date.now();S.entries.push(e)}
+save();clearForm();show("journal")};
+$("cancel").onclick=function(){clearForm()};
+$("del").onclick=function(){if(confirm("Supprimer cette saisie ?")){S.entries=S.entries.filter(function(x){return x.id!==editId});save();clearForm();show("journal")}};
+function sorted(){return S.entries.slice().sort(function(a,b){return (a.date+(a.time||"00:00")).localeCompare(b.date+(b.time||"00:00"))||((a.km||0)-(b.km||0))})}
+function fdate(d){var p=(d||"").split("-");return p.length===3?p[2]+"/"+p[1]+"/"+p[0].slice(2):""}
+function renderList(){
+var a=sorted().reverse(),h="";
+if(!a.length)h="<p class='note'>Aucune saisie.</p>";
+a.forEach(function(e){
+var tags="";if(e.kwh!=null)tags+="<span class='tag'>🔌 "+f(e.kwh,2)+" kWh</span>";if(e.litres)tags+="<span class='tag'>⛽ "+f(e.litres,1)+" L</span>";
+if(e.bapres!=null)tags+="<span class='tag'>🔋 "+f(e.bapres,0)+"%</span>";
+h+="<div class='item' data-id='"+e.id+"'><div class='t'><span>"+fdate(e.date)+(e.time?" "+e.time:"")+"</span><span>"+(e.km!=null?f(e.km,0)+" km":"")+"</span></div><div class='s'>"+tags+(e.notes?esc(e.notes):"")+"</div></div>"});
+$("list").innerHTML=h;
+Array.prototype.forEach.call($("list").querySelectorAll(".item"),function(el){el.onclick=function(){var id=+el.getAttribute("data-id");fill(S.entries.filter(function(x){return x.id===id})[0])}})}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function segs(){
+var a=sorted().filter(function(e){return e.km!=null}),r=[];
+for(var i=1;i<a.length;i++){var p=a[i-1],e=a[i],d=e.km-p.km;if(d<=0)continue;
+var ev=null;if(p.evapres!=null&&e.evavant!=null)ev=Math.max(0,Math.min(d,p.evapres-e.evavant));
+r.push({date:e.date,d:d,kwh:e.kwh,l:e.litres,ev:ev,k100:e.kwh!=null?e.kwh/d*100:null,l100:e.litres?e.litres/d*100:null})}
+return r}
+function renderStats(){
+var a=sorted(),kms=a.filter(function(e){return e.km!=null}).map(function(e){return e.km}),
+tk=kms.length>1?Math.max.apply(null,kms)-Math.min.apply(null,kms):0,
+tot=function(k){return a.reduce(function(s,e){return s+(e[k]||0)},0)},
+kwh=tot("kwh"),lit=tot("litres"),ce=kwh*S.settings.pk,cl=lit*S.settings.pl,sg=segs();
+var dd=0,kk=0;sg.forEach(function(s){if(s.kwh!=null){dd+=s.d;kk+=s.kwh}});
+var evk=0,evd=0;sg.forEach(function(s){if(s.ev!=null){evk+=s.ev;evd+=s.d}});
+var K=[["Km parcourus",f(tk,0)+" km"],["kWh / 100 km",dd?f(kk/dd*100,1):"–"],["Énergie chargée",f(kwh,1)+" kWh"],["Coût électricité",f(ce,2)+" DT"],
+["Essence",f(lit,1)+" L"],["Coût essence",f(cl,2)+" DT"],["Coût total / 100 km",tk?f((ce+cl)/tk*100,2)+" DT":"–"],["Part électrique",evd?f(evk/evd*100,0)+" %":"–"]];
+$("kpis").innerHTML=K.map(function(x){return "<div class='kpi'><small>"+x[0]+"</small><b>"+x[1]+"</b></div>"}).join("");
+var pts=sg.filter(function(s){return s.k100!=null});
+if(pts.length<1){$("chart").innerHTML="";$("chartnote").textContent="Il faut au moins deux saisies avec kilométrage et kWh."}
+else{$("chartnote").textContent="Chaque barre = kWh chargés à la saisie ÷ km depuis la saisie précédente.";
+var W=360,H=150,m=22,mx=Math.max.apply(null,pts.map(function(s){return s.k100}))*1.15,bw=(W-m)/pts.length,sv="<svg viewBox='0 0 "+W+" "+H+"' width='100%' role='img'>";
+pts.forEach(function(s,i){var h=(H-30)*s.k100/mx,x=m+i*bw+bw*.15,w=bw*.7;
+sv+="<rect x='"+x+"' y='"+(H-20-h)+"' width='"+w+"' height='"+h+"' rx='4' fill='var(--ac)'/><text x='"+(x+w/2)+"' y='"+(H-22-h)+"' font-size='10' text-anchor='middle' fill='var(--tx)'>"+f(s.k100,0)+"</text><text x='"+(x+w/2)+"' y='"+(H-6)+"' font-size='9' text-anchor='middle' fill='var(--mut)'>"+fdate(s.date).slice(0,5)+"</text>"});
+$("chart").innerHTML=sv+"</svg>"}
+var t="<tr><th>Date</th><th>km</th><th>kWh</th><th>kWh/100</th><th>L/100</th></tr>";
+sg.slice().reverse().forEach(function(s){t+="<tr><td>"+fdate(s.date).slice(0,5)+"</td><td>"+f(s.d,0)+"</td><td>"+f(s.kwh,1)+"</td><td>"+f(s.k100,1)+"</td><td>"+f(s.l100,1)+"</td></tr>"});
+$("tbl").innerHTML=t}
+var map={"s-cap":"cap","s-aut":"aut","s-pk":"pk","s-pl":"pl"};
+Object.keys(map).forEach(function(id){$(id).value=S.settings[map[id]];$(id).addEventListener("input",function(){var n=num($(id).value);if(n!=null){S.settings[map[id]]=n;save();costs()}})});
+$("exp").onclick=function(){
+var h=["date","heure","km","batt_avant","km_ev_avant","kwh","batt_apres","km_ev_apres","litres","km_essence","notes"],
+L=[h.join(";")];sorted().forEach(function(e){L.push([e.date,e.time,e.km,e.bavant,e.evavant,e.kwh,e.bapres,e.evapres,e.litres,e.essrest,(e.notes||"").replace(/;/g,",")].map(function(v){return v==null?"":v}).join(";"))});
+var c=L.join("\n"),ta=$("csv");ta.value=c;ta.classList.remove("hide");ta.select();
+try{navigator.clipboard.writeText(c)}catch(e){}};
+$("reset").onclick=function(){if(confirm("Effacer toutes les données ?")){S.entries=[];save();clearForm();show("saisie")}};
+function show(v){["saisie","journal","stats","reglages"].forEach(function(x){$("v-"+x).classList.toggle("hide",x!==v)});
+Array.prototype.forEach.call($("nav").querySelectorAll("button"),function(b){b.classList.toggle("on",b.getAttribute("data-v")===v)});
+if(v==="journal")renderList();if(v==="stats")renderStats()}
+Array.prototype.forEach.call($("nav").querySelectorAll("button"),function(b){b.onclick=function(){if(b.getAttribute("data-v")!=="saisie")clearForm();show(b.getAttribute("data-v"))}});
+clearForm();
+})();
+</script>
+</body>
+</html>
